@@ -32,7 +32,10 @@ jobs:
         run: npm run build --if-present
 
       - name: Zip artifact for deployment
-        run: cd server && zip -r ../release.zip ./*  # ✅ Zip only server/ folder
+        run: |
+          cd server
+          zip -r ../release.zip ./*  # ✅ Zip only server/ folder
+          cd ..
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -72,4 +75,4 @@ jobs:
         with:
           app-name: 'server-dice-roller'
           slot-name: 'Production'
-          package: server/  # ✅ Deploy only the server/ folder
+          package: release.zip  # ✅ Deploy the correct zip file
